@@ -1,52 +1,36 @@
-import { Injectable } from "@angular/core";
-import { Http, Headers, Response } from "@angular/http";
-import { Observable } from "rxjs/Rx";
+import {Injectable} from "@angular/core";
+import {Http, Headers, Response} from "@angular/http";
+import {Observable} from "rxjs/Rx";
 import "rxjs/add/operator/do";
 import "rxjs/add/operator/map";
-
-import { User } from "./user";
-import { Config } from "../config";
+import {User} from "./user";
+import {Config} from "../config";
+import {JakRequest} from "../json/jak.request";
+import {Json} from "../json/json";
+import {HttpResponse} from "http";
 
 @Injectable()
 export class UserService {
 
-  constructor(private http: Http) {}
+    constructor(private json: Json) {
+    }
 
-  register(user: User) {
-    let headers = new Headers();
-    headers.append("Content-Type", "application/json");
+    register(user: User) {
+    }
 
-    return this.http.post(
-      Config.apiUrl + "Users",
-      JSON.stringify({
-        Username: user.email,
-        Email: user.email,
-        Password: user.password
-      }),
-      { headers: headers }
-    ).catch(this.handleErrors);
-  }
+    login(user: User) {
+        let request = new JakRequest(Config.apiUrl, "GET");
+        let b64encodedAuth = `${user.email}:${user.password}`;
+        request.addHeader("Authorization", `Basic ${b64encodedAuth}`);
+        this.json.send(request, this.callback);
+    }
 
-  login(user: User) {
-    let headers = new Headers();
-    headers.append("Content-Type", "application/json");
+    public callback = function(response: HttpResponse) {
+        alert("Got it: " + response.content.toString());
+    };
 
-    return this.http.post(
-      Config.apiUrl + "oauth/token",
-      JSON.stringify({
-        username: user.email,
-        password: user.password,
-        grant_type: "password"
-      }),
-      { headers: headers }
-    ).map(response => response.json())
-    .do(data => {
-      Config.token = data.Result.access_token;
-    }).catch(this.handleErrors);    
-  }
-
-  handleErrors(error: Response) {
-    console.log(JSON.stringify(error.json()));
-    return Observable.throw(error);
-  }
+    handleErrors(error: Response) {
+        console.log(JSON.stringify(error.json()));
+        return Observable.throw(error);
+    }
 }

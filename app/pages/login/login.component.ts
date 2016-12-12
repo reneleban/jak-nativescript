@@ -38,22 +38,11 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    this.userService.login(this.user)
-      .subscribe(
-        () => this.router.navigate(["/list"]),
-        (error) => alert("Account does not exist")
-      );
+    this.userService.login(this.user);
   }
 
   signUp() {
-    this.userService.register(this.user)
-      .subscribe(
-        () => {
-          alert("Your account was successfully created.");
-          this.toggleDisplay();
-        },
-        () => alert("Unfortunately we were unable to create your account.")
-      );
+    this.userService.register(this.user);
   }
 
   toggleDisplay() {
