@@ -7,3 +7,5 @@ platforms/
 tmp/
 typings/
 .DS_Store
+
+.idea/
