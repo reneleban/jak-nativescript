@@ -42,4 +42,20 @@ export class JakRequest {
     set url(value: string) {
         this._url = value;
     }
+
+    toString(): string {
+        return `${this._url} -> ${this._method} ? ${this.sfyParams} ... {${this.sfyAdditionalHeaders}}`;
+    }
+
+    get sfyParams(): string {
+        return this.sfy(this._params);
+    }
+
+    get sfyAdditionalHeaders(): string {
+        return this.sfy(this._additionalHeaders);
+    }
+
+    private sfy(object: {}): string {
+        return JSON.stringify(object);
+    }
 }

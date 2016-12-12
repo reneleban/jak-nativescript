@@ -22,8 +22,11 @@ export class Json {
             headers: headers,
             content: parameterString
         }).then(function successCallback(response) {
+            console.log("Success -> " + response);
             callback(response);
         }, function errorCallback(response) {
+            console.log("An error occured:");
+            console.log(response);
             callback(response);
         });
     }

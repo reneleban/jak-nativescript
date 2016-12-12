@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {Http, Headers, Response} from "@angular/http";
+import {Response} from "@angular/http";
 import {Observable} from "rxjs/Rx";
 import "rxjs/add/operator/do";
 import "rxjs/add/operator/map";
@@ -15,13 +15,17 @@ export class UserService {
     constructor(private json: Json) {
     }
 
+    base64 = require("base-64");
+
     register(user: User) {
     }
 
     login(user: User) {
         let request = new JakRequest(Config.apiUrl, "GET");
         let b64encodedAuth = `${user.email}:${user.password}`;
+        b64encodedAuth = this.base64.encode(b64encodedAuth);
         request.addHeader("Authorization", `Basic ${b64encodedAuth}`);
+        console.log(request.toString());
         this.json.send(request, this.callback);
     }
 
