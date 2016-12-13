@@ -7,5 +7,5 @@ platforms/
 tmp/
 typings/
 .DS_Store
-
+.vscode/
 .idea/
