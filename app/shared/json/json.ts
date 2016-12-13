@@ -13,13 +13,18 @@ export class Json {
         let headers = new Headers();
         headers.append("Content-Type", `${request.contentType}`);
 
+        // TODO: Add additional headers
+        Object.keys(request.additionalHeaders).forEach(function(k) {
+            headers.append(k, request.additionalHeaders[k]);
+        });
+
         let url = request.url;
         let parameterString = JSON.stringify(request.params);
 
         http.request({
             url: request.url,
             method: request.method,
-            headers: headers,
+            headers: request.additionalHeaders,
             content: parameterString
         }).then(function successCallback(response) {
             console.log("Success -> " + response);

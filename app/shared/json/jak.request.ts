@@ -35,6 +35,10 @@ export class JakRequest {
         return this._params;
     }
 
+    get additionalHeaders(): {} {
+      return this._additionalHeaders;
+    }
+
     get url(): string {
         return this._url;
     }
