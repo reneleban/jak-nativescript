@@ -19,14 +19,19 @@ export class Json {
         });
 
         let url = request.url;
-        let parameterString = JSON.stringify(request.params);
 
-        http.request({
-            url: request.url,
-            method: request.method,
-            headers: request.additionalHeaders,
-            content: parameterString
-        }).then(function successCallback(response) {
+        let req = {
+          url: request.url,
+          method: request.method,
+          headers: request.additionalHeaders
+        };
+
+        if (Object.keys(request.params).length > 0) {
+            let parameterString = JSON.stringify(request.params);
+            req["content"] = parameterString;
+        }
+
+        http.request(req).then(function successCallback(response) {
             console.log("Success -> " + response);
             callback(response);
         }, function errorCallback(response) {
