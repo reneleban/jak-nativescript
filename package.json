@@ -12,6 +12,9 @@
       "version": "2.4.1"
     }
   },
+  "scripts": {
+        "tslint": "tslint -c tslint.json 'app/**/*.ts'"
+  },
   "dependencies": {
     "@angular/common": "2.2.1",
     "@angular/compiler": "2.2.1",
@@ -40,6 +43,7 @@
     "lazy": "1.0.11",
     "nativescript-dev-android-snapshot": "^0.*.*",
     "nativescript-dev-typescript": "^0.3.2",
+    "tslint": "^4.1.0",
     "typescript": "~2.0.10",
     "zone.js": "~0.6.21"
   }

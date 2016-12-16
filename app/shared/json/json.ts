@@ -3,7 +3,7 @@ import {Headers} from "@angular/http";
 import "rxjs/add/operator/do";
 import "rxjs/add/operator/map";
 import {JakRequest} from "./jak.request";
-import * as http from "http"
+import * as http from "http";
 import {HttpResponse} from "http";
 
 @Injectable()
