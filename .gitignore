@@ -1,5 +1,6 @@
 app/**/*.js
 app/**/*.js.map
+!app/tests/**/*
 hooks/
 lib/
 node_modules/
