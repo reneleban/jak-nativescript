@@ -1,6 +1,6 @@
 env:
   global:
-    - NODE_VERSION=6.1
+    - NODE_VERSION=node
 
 language: android
 
@@ -25,13 +25,23 @@ cache:
 
 install:
     - nvm install $NODE_VERSION
+    - npm install -g nativescript
+    - tns usage-reporting disable
+    - tns error-reporting disable
     - npm install
+
+# before_script:
+#    - echo no | android create avd --force -n test -t android-19 -b armeabi-v7a
+#    - emulator -avd test -no-audio -no-window &
+#    - android-wait-for-emulator
 
 script:
     - npm run tslint
+    - tns platform add android
     - tns build android
+#     - tns test android --emulator --justlaunch
 
-#notifications:
-#  email:
-#    - leban.rene@gmail.com
-#    - jens.sproede@gmail.com
+notifications:
+  email:
+    - leban.rene@gmail.com
+    - jens.sproede@gmail.com
