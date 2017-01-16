@@ -12,6 +12,8 @@ import {HttpResponse} from "http";
 @Injectable()
 export class UserService {
 
+    user: User;
+
     constructor(private json: Json) {
     }
 
@@ -20,21 +22,30 @@ export class UserService {
     register(user: User) {
     }
 
-    login(user: User) {
-        let request = new JakRequest(Config.apiUrl, "GET");
+    login(user: User, func: (response: HttpResponse) => void) {
+        this.user = user;
+        let request = new JakRequest(Config.loginApiUrl, "GET");
         let b64encodedAuth = `${user.email}:${user.password}`;
         b64encodedAuth = this.base64.encode(b64encodedAuth);
         request.addHeader("Authorization", `Basic ${b64encodedAuth}`);
         console.log(request.toString());
-        this.json.send(request, this.callback);
-    }
+        this.json.send(request, func);
+    };
 
-    public callback = function(response: HttpResponse) {
-        alert("Got it: " + response.content.toString());
+    isUserLoggedIn(): Boolean {
+        return this.user != null && this.user.token.length != 0;
+    };
+
+    getUserToken(): string {
+        return this.isUserLoggedIn() ? this.user.token : null;
+    };
+
+    setUserToken(token: string) {
+        this.user.token = token;
     };
 
     handleErrors(error: Response) {
         console.log(JSON.stringify(error.json()));
         return Observable.throw(error);
-    }
+    };
 }

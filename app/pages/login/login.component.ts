@@ -1,10 +1,12 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { User } from "../../shared/user/user";
 import { UserService } from "../../shared/user/user.service";
-import { Router } from "@angular/router";
+//import { Router, NavigationExtras } from "@angular/router";
+import {RouterExtensions} from "nativescript-angular/router";
 import { Page } from "ui/page";
 import { Color } from "color";
 import { View } from "ui/core/view";
+import {HttpResponse} from "http";
 
 @Component({
   selector: "my-app",
@@ -14,11 +16,12 @@ import { View } from "ui/core/view";
 })
 
 export class LoginComponent implements OnInit {
+  
   user: User;
   isLoggingIn = true;
   @ViewChild("container") container: ElementRef;
 
-  constructor(private router: Router, private userService: UserService, private page: Page) {
+  constructor(private router: RouterExtensions, private userService: UserService, private page: Page) {
     this.user = new User();
   }
 
@@ -36,8 +39,18 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    this.userService.login(this.user);
+    this.userService.login(this.user, this.loginCallback);
   }
+
+  loginCallback = (response: HttpResponse) => {
+    let token = response.content.toJSON()["token"];
+    this.userService.setUserToken(token);
+
+    if (this.userService.isUserLoggedIn()) {
+      console.log("user token: " + this.userService.getUserToken());
+      this.router.navigate(["/list"], { clearHistory: true });
+    }
+  };
 
   signUp() {
     this.userService.register(this.user);
