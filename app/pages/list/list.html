@@ -1,8 +1,4 @@
-<ActionBar title="Lists">
-    <NavigationButton icon="res://ic_drawer" (tap)="openDrawer()">
-    </NavigationButton>
-</ActionBar>
-<RadSideDrawer #drawer>
+<RadSideDrawer>
     <StackLayout tkDrawerContent class="sideStackLayout">
         <StackLayout class="sideTitleStackLayout">
             <Label text="Navigation menu"></Label>
@@ -19,6 +15,9 @@
         </StackLayout>
     </StackLayout>
     <StackLayout tkMainContent>
+        <ActionBar title="Lists">
+            <NavigationButton icon="res://ic_drawer" (tap)="openDrawer()"></NavigationButton>
+        </ActionBar>
        <Button text="OPEN DRAWER" (tap)=openDrawer()></Button>
     </StackLayout>
 </RadSideDrawer>  
