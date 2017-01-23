@@ -1,6 +1,6 @@
 <ActionBar title="Lists">
-    <ActionItem icon="res://ic_drawer" (tap)="openDrawer()"></ActionItem>
-    <!--<NavigationButton *ifAndroid icon="res://ic_drawer" (tap)="openDrawer()"></NavigationButton>-->
+    <ActionItem *ifIos icon="res://ic_drawer" (tap)="openDrawer()"></ActionItem>
+    <NavigationButton *ifAndroid icon="res://ic_drawer" (tap)="openDrawer()"></NavigationButton>
 </ActionBar>
 <RadSideDrawer>
     <StackLayout tkDrawerContent class="sideStackLayout sideDrawer">
