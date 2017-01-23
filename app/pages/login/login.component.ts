@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit {
   };
 
   signUp() {
-    this.userService.register(this.user);
+    this.userService.register(this.user, this.loginCallback);
   }
 
   toggleDisplay() {

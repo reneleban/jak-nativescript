@@ -19,8 +19,17 @@ export class UserService {
 
     base64 = require("base-64");
 
-    register(user: User) {
-    }
+    register(user: User, func: (response: HttpResponse) => void) {
+        this.user = user;
+
+        let request = new JakRequest(Config.loginApiUrl, "POST");
+        request.addParam('username', user.email);
+        request.addParam('password', user.password);
+
+        console.log(request.toString);
+
+        this.json.send(request, func);  
+    };
 
     login(user: User, func: (response: HttpResponse) => void) {
         this.user = user;
