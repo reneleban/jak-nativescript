@@ -8,26 +8,22 @@ import { RadSideDrawerComponent, SideDrawerType } from "nativescript-telerik-ui/
 })
 
 export class ListComponent {
-    @ViewChild(RadSideDrawerComponent) 
+    @ViewChild("drawer") 
     public drawerComponent: RadSideDrawerComponent;
     private drawer: SideDrawerType;
 
     public pages:Array<Object>;
 
     constructor (private _changeDetectionRef: ChangeDetectorRef) {
-      this.pages = [
-            {name:"Home"},
-            {name:"About"},
-            {name:"Contact"}
-        ]; 
+      
     }
-    
+
     ngAfterViewInit() {
         this.drawer = this.drawerComponent.sideDrawer;
-        this._changeDetectionRef.detectChanges();
+        //this._changeDetectionRef.detectChanges();
     }
 
     public openDrawer() {
-        this.drawer.toggleDrawerState();
+        this.drawer.showDrawer();
     }
 }
