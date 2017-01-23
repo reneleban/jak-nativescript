@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild, ChangeDetectorRef} from "@angular/core";
+import { Component, ElementRef, ViewChild, ChangeDetectorRef} from "@angular/core";
 import { RadSideDrawerComponent, SideDrawerType } from "nativescript-telerik-ui/sidedrawer/angular";  
 
 @Component({
@@ -8,14 +8,13 @@ import { RadSideDrawerComponent, SideDrawerType } from "nativescript-telerik-ui/
 })
 
 export class ListComponent {
-    @ViewChild("drawer") 
+    @ViewChild(RadSideDrawerComponent) 
     public drawerComponent: RadSideDrawerComponent;
     private drawer: SideDrawerType;
 
     public pages:Array<Object>;
 
     constructor (private _changeDetectionRef: ChangeDetectorRef) {
-      
     }
 
     ngAfterViewInit() {
@@ -24,6 +23,6 @@ export class ListComponent {
     }
 
     public openDrawer() {
-        this.drawer.showDrawer();
+        this.drawer.toggleDrawerState();
     }
 }

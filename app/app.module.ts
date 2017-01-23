@@ -7,6 +7,9 @@ import { NativeScriptRouterModule } from "nativescript-angular/router";
 import { AppComponent } from "./app.component";
 import { routes, navigatableComponents } from "./app.routing";
 
+import drawerModule = require("nativescript-telerik-ui/sidedrawer");
+import { SIDEDRAWER_DIRECTIVES } from "nativescript-telerik-ui/sidedrawer/angular";
+
 @NgModule({
   imports: [
     NativeScriptModule,
@@ -17,6 +20,7 @@ import { routes, navigatableComponents } from "./app.routing";
   ],
   declarations: [
     AppComponent,
+    SIDEDRAWER_DIRECTIVES,
     ...navigatableComponents
   ],
   bootstrap: [AppComponent]
