@@ -20,7 +20,7 @@ export class ListComponent {
 
     ngAfterViewInit() {
         this.drawer = this.drawerComponent.sideDrawer;
-        //this._changeDetectionRef.detectChanges();
+        this._changeDetectionRef.detectChanges();
     }
 
     public openDrawer() {
