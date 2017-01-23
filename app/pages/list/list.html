@@ -16,12 +16,7 @@
     </StackLayout>
     <StackLayout tkMainContent>
         <ActionBar title="Lists">
-            <android>
-                <NavigationButton icon="res://ic_drawer" (tap)="openDrawer()"></NavigationButton>
-            </android>
-            <ios>
-                <ActionItem icon="res://ic_drawer" (tap)="openDrawer()" ios.position="left"></ActionItem>
-            </ios>
+            <NavigationButton icon="res://ic_drawer" (tap)="openDrawer()"></NavigationButton>
         </ActionBar>
        <Button text="OPEN DRAWER" (tap)=openDrawer()></Button>
     </StackLayout>
