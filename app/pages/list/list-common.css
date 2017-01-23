@@ -11,3 +11,22 @@
 TextField {
   color: white;
 }
+
+.sideDrawer{
+  background-color: #009688;
+  padding: 16px;
+}
+
+.sideTitleStackLayout label{
+  font-weight: bold;
+  line-height: 28dp;
+  font-size: 20sp;
+  color: white;
+}
+
+.menuEntries label{
+  font-weight: normal;
+  line-height: 24dp;
+  font-size: 16sp;
+  color: white;
+} 
