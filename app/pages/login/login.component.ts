@@ -7,6 +7,7 @@ import { Page } from "ui/page";
 import { Color } from "color";
 import { View } from "ui/core/view";
 import {HttpResponse} from "http";
+import application = require("application");
 
 @Component({
   selector: "my-app",
