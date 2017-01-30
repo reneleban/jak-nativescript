@@ -41,6 +41,11 @@ export class UserService {
         this.json.send(request, func);
     };
 
+    valid(user: User): Boolean{
+        this.user = user;
+        return true;
+    }
+
     isUserLoggedIn(): Boolean {
         return this.user != null && this.user.token.length != 0;
     };

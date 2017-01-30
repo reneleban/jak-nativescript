@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { Component, ElementRef, OnInit, ViewChild, AfterViewInit } from "@angular/core";
 import { User } from "../../shared/user/user";
 import { UserService } from "../../shared/user/user.service";
 //import { Router, NavigationExtras } from "@angular/router";
@@ -8,6 +8,7 @@ import { Color } from "color";
 import { View } from "ui/core/view";
 import {HttpResponse} from "http";
 import application = require("application");
+import * as appSettings from "application-settings";
 
 @Component({
   selector: "my-app",
@@ -16,7 +17,7 @@ import application = require("application");
   styleUrls: ["pages/login/login-common.css", "pages/login/login.css"]
 })
 
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, AfterViewInit {
   
   user: User;
   isLoggingIn = true;
@@ -29,6 +30,20 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.page.actionBarHidden = true;
     this.page.backgroundImage = "res://bg_login";
+  }
+
+  ngAfterViewInit() {
+    let prevToken = appSettings.getString("userToken", null);
+    if(prevToken != null){
+      console.log("previous token: " + prevToken);
+      this.user.token = prevToken;
+      this.userService.user = this.user;
+      if (this.userService.isUserLoggedIn()) {
+        console.log("user token: " + this.userService.getUserToken());
+        appSettings.setString("userToken", this.userService.getUserToken());
+        this.router.navigate(["/list"], { clearHistory: true });
+      }
+    }
   }
 
   submit() {
@@ -49,6 +64,8 @@ export class LoginComponent implements OnInit {
 
     if (this.userService.isUserLoggedIn()) {
       console.log("user token: " + this.userService.getUserToken());
+      appSettings.setString("userToken", this.userService.getUserToken());
+      console.log("Appsettings-Token", appSettings.getString("userToken"));
       this.router.navigate(["/list"], { clearHistory: true });
     }
   };
