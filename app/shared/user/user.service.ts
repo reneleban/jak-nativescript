@@ -41,9 +41,11 @@ export class UserService {
         this.json.send(request, func);
     };
 
-    valid(user: User): Boolean{
+    validate(user: User, func: (response:HttpResponse) => void){
         this.user = user;
-        return true;
+        let request = new JakRequest(Config.validateLoginApiUrl + "/" + this.getUserToken(), "GET");
+        console.log(request.toString());
+        this.json.send(request, func);
     }
 
     isUserLoggedIn(): Boolean {

@@ -35,15 +35,21 @@ export class LoginComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     let prevToken = appSettings.getString("userToken", null);
     if(prevToken != null){
-      console.log("previous token: " + prevToken);
+      console.log("using previous token: " + prevToken);
       this.user.token = prevToken;
       this.userService.user = this.user;
-      if (this.userService.isUserLoggedIn()) {
-        console.log("user token: " + this.userService.getUserToken());
-        appSettings.setString("userToken", this.userService.getUserToken());
-        this.router.navigate(["/list"], { clearHistory: true });
-      }
+      this.userService.validate(this.user, this.validateCallBack);
     }
+  }
+
+  validateCallBack = (response: HttpResponse) => {
+    let username = response.content.toJSON()["username"];
+    this.user.email = username;
+    if (this.userService.isUserLoggedIn()) {
+        this.userService.user = this.user;
+        this.router.navigate(["/list"], { clearHistory: true });
+    }
+
   }
 
   submit() {
