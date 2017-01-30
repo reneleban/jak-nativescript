@@ -5,7 +5,8 @@
 <RadSideDrawer>
     <StackLayout tkDrawerContent class="sideStackLayout sideDrawer">
         <StackLayout class="sideTitleStackLayout">
-            <Label text="email@test.de"></Label>
+            <Label horizontalAlignment="left" [text]="userService.getUsername()"></Label>
+           <!-- <Label  horizontalAlignment="right" style="font-family: material;" text="&#xE879;"></Label> -->
         </StackLayout>
         <StackLayout class="sideStackLayout menuEntries">
             <ListView [items]="pages" separatorColor="white" cssClass="board-listview">

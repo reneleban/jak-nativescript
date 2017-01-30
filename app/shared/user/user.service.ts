@@ -64,4 +64,8 @@ export class UserService {
         console.log(JSON.stringify(error.json()));
         return Observable.throw(error);
     };
+
+    getUsername(): string {
+        return this.user.email;
+    }
 }

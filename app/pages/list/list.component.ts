@@ -22,6 +22,9 @@ export class ListComponent implements OnInit {
     private drawer: SideDrawerType;
     private userToken: string;
 
+    public userLogoutIcon: string;
+    
+
     public pages:Array<DataItem>;
 
     public tabSelectedIndex: number;
@@ -31,6 +34,8 @@ export class ListComponent implements OnInit {
                  private boardService: BoardService) {
                      this.pages = [];
                      this.tabSelectedIndex = 0;
+                     var charCode = 0xe903;
+                     this.userLogoutIcon = charCode.toString(16);
     }
 
     ngOnInit() {
