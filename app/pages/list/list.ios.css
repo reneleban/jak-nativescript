@@ -1,3 +1,11 @@
 TextField {
   border-width: 0;
 }
+
+.board-label {
+  padding: 16px 15px 16px 16px;
+}
+
+.menuEntries {
+  margin-right: 1px;
+}

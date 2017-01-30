@@ -2,14 +2,16 @@
   background-color: #CB1D00;
   padding: 5 10;
 }
+
 .add-bar Image {
   height: 15;
   vertical-align: center;
   margin-left: 10;
   margin-right: 5;
 }
+
 TextField {
-  color: white;
+  color: #ffffff;
 }
 
 .sideDrawer{
@@ -29,15 +31,14 @@ TextField {
 }
 
 .menuEntries {
-  background-color: white;
-  margin-right: 1px;
+  background-color: #ffffff;
 }
 
 .menuEntries label{
   font-weight: normal;
   line-height: 24dp;
   font-size: 16sp;
-  color: black;
+  color: #000000;
 } 
 
 ListView {
@@ -45,10 +46,6 @@ ListView {
 }
 
 .board-listview {
-  background-color: #fff;
-  
+  background-color: #ffffff;
 }
 
-.board-label {
-  padding: 16px 15px 16px 16px;
-}
