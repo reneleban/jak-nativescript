@@ -17,7 +17,32 @@
             </ListView>
         </StackLayout>
     </StackLayout>
-    <StackLayout tkMainContent>
-       <Button text="OPEN DRAWER" (tap)=openDrawer()></Button>
-    </StackLayout>
+    <GridLayout tkMainContent>
+        <TabView>
+            <StackLayout *tabItem="{title: 'Einkaufen'}">
+                <Label text="test"></Label>
+            </StackLayout>
+            <StackLayout *tabItem="{title: 'Einkaufen'}">
+                <Label text="test 1"></Label>
+            </StackLayout>
+            <StackLayout *tabItem="{title: 'Einkaufen'}">
+                <Label text="test 1"></Label>
+            </StackLayout>
+            <StackLayout *tabItem="{title: 'Einkaufen'}">
+                <Label text="test 1"></Label>
+            </StackLayout>
+            <StackLayout *tabItem="{title: 'Einkaufen 1'}">
+                <Label text="test 1"></Label>
+            </StackLayout>
+            <StackLayout *tabItem="{title: 'Einkaufen1'}">
+                <Label text="test 1"></Label>
+            </StackLayout>
+            <StackLayout *tabItem="{title: 'Einkaufen'}">
+                <Label text="test 1"></Label>
+            </StackLayout>
+            <StackLayout *tabItem="{title: 'Einkaufen'}">
+                <Label text="test 1"></Label>
+            </StackLayout>
+        </TabView>
+    </GridLayout>
 </RadSideDrawer>  

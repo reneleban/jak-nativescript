@@ -24,11 +24,13 @@ export class ListComponent implements OnInit {
 
     public pages:Array<DataItem>;
 
+    public tabSelectedIndex: number;
+
     constructor (private _changeDetectionRef: ChangeDetectorRef,
                  private userService: UserService,
                  private boardService: BoardService) {
                      this.pages = [];
-                     this.pages.push(new DataItem("testid", "testname"));
+                     this.tabSelectedIndex = 0;
     }
 
     ngOnInit() {
