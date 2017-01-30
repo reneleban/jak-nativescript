@@ -12,7 +12,6 @@ import * as appSettings from "application-settings";
 
 @Component({
   selector: "my-app",
-  providers: [UserService],
   templateUrl: "pages/login/login.html",
   styleUrls: ["pages/login/login-common.css", "pages/login/login.css"]
 })

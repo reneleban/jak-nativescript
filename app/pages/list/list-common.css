@@ -14,19 +14,41 @@ TextField {
 
 .sideDrawer{
   background-color: #009688;
+}
+
+.sideTitleStackLayout {
+  margin: 0;
+  margin-top: 15%;
   padding: 16px;
 }
 
 .sideTitleStackLayout label{
   font-weight: bold;
   line-height: 28dp;
-  font-size: 20sp;
   color: white;
+}
+
+.menuEntries {
+  background-color: white;
+  margin-right: 1px;
 }
 
 .menuEntries label{
   font-weight: normal;
   line-height: 24dp;
   font-size: 16sp;
-  color: white;
+  color: black;
 } 
+
+ListView {
+  height: 100%;
+}
+
+.board-listview {
+  background-color: #fff;
+  
+}
+
+.board-label {
+  padding: 16px 15px 16px 16px;
+}

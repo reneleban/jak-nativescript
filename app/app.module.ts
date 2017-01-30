@@ -21,7 +21,7 @@ import { IfAndroidDirective, IfIosDirective } from "./shared/ifplatformdirective
     NativeScriptRouterModule.forRoot(routes),
 
   ],
-  declarations: [
+  declarations: [ 
     AppComponent,
     SIDEDRAWER_DIRECTIVES,
     IfAndroidDirective,

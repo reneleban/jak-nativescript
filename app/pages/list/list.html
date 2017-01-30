@@ -5,17 +5,16 @@
 <RadSideDrawer>
     <StackLayout tkDrawerContent class="sideStackLayout sideDrawer">
         <StackLayout class="sideTitleStackLayout">
-            <Label text="Navigation menu"></Label>
+            <Label text="email@test.de"></Label>
         </StackLayout>
         <StackLayout class="sideStackLayout menuEntries">
-            <Label text="Primary" class="sideLabel sideLightGrayLabel"></Label>
-            <Label text="Social" class="sideLabel"></Label>
-            <Label text="Promotions" class="sideLabel"></Label>
-            <Label text="Labels" class="sideLabel sideLightGrayLabel"></Label>
-            <Label text="Important" class="sideLabel"></Label>
-            <Label text="Starred" class="sideLabel"></Label>
-            <Label text="Sent Mail" class="sideLabel"></Label>
-            <Label text="Drafts" class="sideLabel"></Label>
+            <ListView [items]="pages" separatorColor="none" cssClass="board-listview">
+                <template let-item="item" let-i="index">
+                    <StackLayout>
+                        <Label [text]='item.name' cssClass="board-label"></Label>
+                    </StackLayout>
+                </template>
+            </ListView>
         </StackLayout>
     </StackLayout>
     <StackLayout tkMainContent>
