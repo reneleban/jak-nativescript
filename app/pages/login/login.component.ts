@@ -33,6 +33,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
+    /** todo: display loading screen? */
     let prevToken = appSettings.getString("userToken", null);
     if(prevToken != null){
       console.log("using previous token: " + prevToken);
@@ -43,13 +44,17 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
 
   validateCallBack = (response: HttpResponse) => {
-    let username = response.content.toJSON()["username"];
-    this.user.email = username;
-    if (this.userService.isUserLoggedIn()) {
-        this.userService.user = this.user;
-        this.router.navigate(["/list"], { clearHistory: true });
+    if(response.statusCode == 200){
+      let username = response.content.toJSON()["username"];
+      this.user.email = username;
+      if (this.userService.isUserLoggedIn()) {
+          this.userService.user = this.user;
+          this.router.navigate(["/list"], { clearHistory: true });
+      }
+    } else {
+      this.user = new User();
+      appSettings.remove("userToken");
     }
-
   }
 
   submit() {
