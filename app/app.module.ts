@@ -4,6 +4,8 @@ import { NativeScriptHttpModule } from "nativescript-angular/http";
 import { NativeScriptModule } from "nativescript-angular/platform";
 import { NativeScriptRouterModule } from "nativescript-angular/router";
 
+import { SlidesModule } from 'nativescript-ng2-slides';
+
 import { AppComponent } from "./app.component";
 import { routes, navigatableComponents } from "./app.routing";
 
@@ -19,7 +21,8 @@ import { IfAndroidDirective, IfIosDirective } from "./shared/ifplatformdirective
     NativeScriptFormsModule,
     NativeScriptRouterModule,
     NativeScriptRouterModule.forRoot(routes),
-
+    SlidesModule,
+    
   ],
   declarations: [ 
     AppComponent,
