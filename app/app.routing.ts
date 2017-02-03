@@ -4,7 +4,8 @@ import { CardComponent } from "./pages/card/card.component";
 
 export const routes = [
   { path: "", component: LoginComponent },
-  { path: "list", component: ListComponent }
+  { path: "list", component: ListComponent },
+  { path: "card", component: CardComponent }
 ];
 
 export const navigatableComponents = [

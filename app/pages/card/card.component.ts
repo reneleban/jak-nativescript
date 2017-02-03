@@ -1,16 +1,20 @@
-import {Component, OnInit, ChangeDetectionStrategy} from "@angular/core";
+import {Component, OnInit, ChangeDetectionStrategy, AfterViewInit, ChangeDetectorRef} from "@angular/core";
 import {HttpResponse} from "http";
 import {Observable as RxObservable} from "rxjs/Observable";
 import {UserService} from "../../shared/user/user.service";
 import {CardService} from "../../shared/card/card.service";
 import {ActivatedRoute} from "@angular/router";
 
+// import * as elementRegistryModule from "nativescript-angular/element-registry";
+// elementRegistryModule.registerElement("CardView", () => require("nativescript-cardview").CardView);
+
 class CardItem {
     constructor(
         public owner: string,
         public list_id: string,
         public id: string,
-        public title: string
+        public name: string,
+        public description: string
     ) {
     }
 }
@@ -22,7 +26,7 @@ class CardItem {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class CardComponent implements OnInit {
+export class CardComponent implements OnInit, AfterViewInit {
     private userToken: string;
     public cardItems: RxObservable<Array<CardItem>>;
     public subscr: any;
@@ -30,16 +34,23 @@ export class CardComponent implements OnInit {
 
     private listId: string;
 
-    constructor (private userService: UserService,
+    constructor (private _changeDetectionRef: ChangeDetectorRef,
+                 private userService: UserService,
                  private cardService: CardService,
                  private route: ActivatedRoute) {
 
-        this.route.queryParams.subscribe(params => {
-           this.listId = params["selectedListId"];
-        });
-
         this.items = [];
-        
+
+        this.route.queryParams.subscribe(params => {
+            this.listId = params["selectedListId"];
+        });
+    }
+
+    ngOnInit() {
+        this.userToken = this.userService.getUserToken();
+    }
+
+    ngAfterViewInit() {
         this.cardItems = RxObservable.create(subscriber => {
             this.subscr = subscriber;
             subscriber.next(this.items);
@@ -47,14 +58,9 @@ export class CardComponent implements OnInit {
                 console.log("Unsubscribe called!");
             };
         });
-    }
 
-    ngOnInit() {
-        this.userToken = this.userService.getUserToken();
-        this.loadCards();
-    }
+        this._changeDetectionRef.detectChanges();
 
-    public loadCards(){
         if (this.userToken != null) {
             this.items = [];
             this.subscr.next(this.items);
@@ -67,9 +73,9 @@ export class CardComponent implements OnInit {
         for (var i = 0; i < content.length; i++) {
             var data = content[i];
             console.dir(data);
-            // var item = new ListItem(data["owner"], data["board_id"], data["list_id"], data["name"]);
-            // this.items.push(item);
-            // this.subscr.next(this.items);
+            var item = new CardItem(data["owner"], data["list_id"], data["card_id"], data["name"], data["description"]);
+            this.items.push(item);
+            this.subscr.next(this.items);
         }
     };
 
