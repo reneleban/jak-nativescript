@@ -6,6 +6,8 @@ import { Observable as RxObservable } from "rxjs/Observable";
 import { BoardService } from "../../shared/board/board.service";
 import { UserService } from "../../shared/user/user.service";
 import { ListService } from "../../shared/list/list.service";
+import {RouterExtensions} from "nativescript-angular";
+import {NavigationExtras} from "@angular/router";
 
 class DataItem {
     constructor(public id: string, public name: string) { }
@@ -48,7 +50,8 @@ export class ListComponent implements OnInit {
     constructor (private _changeDetectionRef: ChangeDetectorRef,
                  private userService: UserService,
                  private boardService: BoardService, 
-                 private listService: ListService
+                 private listService: ListService,
+                 private router: RouterExtensions
                  ) {
         this.pages = [];
         this.tabSelectedIndex = 0;
@@ -95,6 +98,8 @@ export class ListComponent implements OnInit {
     public openBoard(item: DataItem){
         console.dir(item);
         if (this.userToken != null) {
+            this.items = [];
+            this.subscr.next(this.items);
             this.listService.lists(this.userToken, item.id, this.listCallback);
         }
     }
@@ -111,6 +116,12 @@ export class ListComponent implements OnInit {
     }
 
     public onListItemTap(listItem: ListItem) {
-        console.dir(listItem);
+        let navigationExtras: NavigationExtras = {
+            queryParams: {
+                "selectedListId": listItem.id
+            }
+        };
+
+        this.router.navigate(["/card"], navigationExtras);
     }
 }
