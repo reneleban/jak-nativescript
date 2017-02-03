@@ -1,6 +1,6 @@
 <ActionBar title="Lists">
-    <ActionItem *ifIos icon="res://ic_drawer" (tap)="openDrawer()"></ActionItem>
-    <NavigationButton *ifAndroid icon="res://ic_drawer" (tap)="openDrawer()"></NavigationButton>
+    <ActionItem *ifIos icon="res://ic_drawer" (tap)="toggleDrawer()"></ActionItem>
+    <NavigationButton *ifAndroid icon="res://ic_drawer" (tap)="toggleDrawer()"></NavigationButton>
 </ActionBar>
 <RadSideDrawer>
     <StackLayout tkDrawerContent class="sideStackLayout sideDrawer">
@@ -12,29 +12,19 @@
             <ListView [items]="pages" separatorColor="white" cssClass="board-listview">
                 <template let-item="item" let-i="index">
                     <StackLayout>
-                        <Label [text]='item.name' cssClass="board-label"></Label>
+                        <Label [text]='item.name' (tap)="openBoard(item)" cssClass="board-label"></Label>
                     </StackLayout>
                 </template>
             </ListView>
         </StackLayout>
     </StackLayout>
     <GridLayout tkMainContent>
-        <slides>
-            <slide class="slide-1">
-                <Label text="This is Panel 1"></Label>
-            </slide>
-            <slide class="slide-2">
-                <Label text="This is Panel 2"></Label>
-            </slide>
-            <slide class="slide-3">
-                <Label text="This is Panel 3"></Label>
-            </slide>
-            <slide class="slide-4">
-                <Label text="This is Panel 4"></Label>
-            </slide>
-            <slide class="slide-5">
-                <Label text="This is Panel 5"></Label>
-            </slide>
-        </slides>
+         <ListView [items]="listItems | async" class="list-group">
+            <template let-item="item" let-i="index" let-odd="odd" let-even="even">
+                <GridLayout class="list-group-item" [class.odd]="odd" [class.even]="even">
+                    <Label [text]="item.name" android:class="label-item" (tap)="onListItemTap(item)"></Label>
+                </GridLayout>
+            </template>
+        </ListView>
     </GridLayout>
 </RadSideDrawer>  
