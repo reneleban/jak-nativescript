@@ -16,13 +16,17 @@ export class ListService {
 
     lists(token: string, boardId: string): Observable<any> {
         let request = new JakRequest(Config.listApiUrl + "/list/" + token + "/" + boardId, "GET");
-        console.log(request.toString());
         return this.json.send(request);
     }
 
     add(token: string, boardId: string, name: string): Observable<any> {
         let request = new JakRequest(Config.listApiUrl + "/board/" + token + "/" + boardId, "POST" );
         request.addParam('name', name);
+        return this.json.send(request);
+    }
+
+    delete(token: string, listId: string): Observable<any> {
+        let request = new JakRequest(Config.listApiUrl + "/list/" + token + "/" + listId, "DELETE");
         return this.json.send(request);
     }
 }

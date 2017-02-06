@@ -14,7 +14,6 @@ export class CardService {
 
     cards(token: string, listId: string): Observable<any> {
         let request = new JakRequest(Config.cardApiUrl + "/" + token + "/" + listId, "GET");
-        console.log(request.toString());
         return this.json.send(request);
     }
 
@@ -27,6 +26,11 @@ export class CardService {
 
     delete(token: string, cardId: string): Observable<any> {
         let request = new JakRequest(Config.cardApiUrl + "/" + token + "/" + cardId, "DELETE");
+        return this.json.send(request);
+    }
+
+    deleteAll(token: string, listId: string): Observable<any> {
+        let request = new JakRequest(Config.cardApiUrl + "/list/" + token + "/" + listId, "DELETE");
         return this.json.send(request);
     }
 }

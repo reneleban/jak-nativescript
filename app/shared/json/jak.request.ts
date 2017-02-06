@@ -48,7 +48,8 @@ export class JakRequest {
     }
 
     toString(): string {
-        return `${this._url} -> ${this._method} ? ${this.sfyParams} ... {${this.sfyAdditionalHeaders}}`;
+        return `${this._method} -> ${this._url}`;
+        // return `${this._url} -> ${this._method} ? ${this.sfyParams} ... {${this.sfyAdditionalHeaders}}`;
     }
 
     get sfyParams(): string {

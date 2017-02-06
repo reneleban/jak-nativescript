@@ -1,4 +1,7 @@
-import {Component, OnInit, ChangeDetectionStrategy, AfterViewInit, ChangeDetectorRef, ViewChild} from "@angular/core";
+import {
+    Component, OnInit, ChangeDetectionStrategy, AfterViewInit, ChangeDetectorRef, ViewChild,
+    ViewContainerRef
+} from "@angular/core";
 import {UserService} from "../../shared/user/user.service";
 import {CardService} from "../../shared/card/card.service";
 import {ActivatedRoute} from "@angular/router";
@@ -10,6 +13,8 @@ import { GestureEventData } from "ui/gestures";
 
 import * as dialogs from "ui/dialogs";
 import {SwipeGestureEventData} from "ui/gestures";
+import {ModalDialogOptions, ModalDialogService} from "nativescript-angular/directives/dialogs";
+import {DeleteDialog} from "../../shared/delete/DeleteDialog";
 elementRegistryModule.registerElement("CardView", () => require("nativescript-cardview").CardView);
 
 class CardItem {
@@ -44,7 +49,9 @@ export class CardComponent implements OnInit, AfterViewInit {
     constructor (private _changeDetectionRef: ChangeDetectorRef,
                  private userService: UserService,
                  private cardService: CardService,
-                 private route: ActivatedRoute) {
+                 private route: ActivatedRoute,
+                 private modalService: ModalDialogService,
+                 private viewContainerRef: ViewContainerRef) {
 
         this.items = [];
 
@@ -131,6 +138,19 @@ export class CardComponent implements OnInit, AfterViewInit {
     }
 
     public deleteList() {
-        console.log("delete list " + this.listId);
+        let options: ModalDialogOptions = {
+            viewContainerRef: this.viewContainerRef,
+            context: {
+                listId: this.listId,
+                userToken: this.userToken
+            },
+            fullscreen: true
+        };
+
+        this.modalService.showModal(DeleteDialog, options).then((dialogResult: string) => {
+            if (dialogResult === "ok") {
+
+            }
+        });
     }
 }

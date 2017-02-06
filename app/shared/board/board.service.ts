@@ -16,7 +16,6 @@ export class BoardService {
 
     boards(token: string): Observable<any> {
         let request = new JakRequest(Config.boardApiUrl + "/" + token, "GET");
-        console.log(request.toString());
         return this.json.send(request);
     }
     
@@ -26,4 +25,8 @@ export class BoardService {
         return this.json.send(request);
     }
 
+    delete(token: string, boardId: string): Observable<any> {
+        let request = new JakRequest(Config.boardApiUrl + "/" + token + "/" + boardId, "DELETE");
+        return this.json.send(request);
+    }
 }

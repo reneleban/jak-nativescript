@@ -38,6 +38,8 @@ export class Json {
         let reqOptions = new RequestOptions(basicOptions);
         let req = new Request(reqOptions);
 
+        console.log(request.toString());
+
         return this.http.request(req)
             .map((res:Response) => res.json())
             .catch((error:any) => Observable.throw(error.json().error || 'Server error'));

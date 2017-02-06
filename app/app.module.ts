@@ -1,18 +1,16 @@
-import { NgModule } from "@angular/core";
-import { NativeScriptFormsModule } from "nativescript-angular/forms";
-import { NativeScriptHttpModule } from "nativescript-angular/http";
-import { NativeScriptModule } from "nativescript-angular/platform";
-import { NativeScriptRouterModule } from "nativescript-angular/router";
-
-import { SlidesModule } from 'nativescript-ng2-slides';
-
-import { AppComponent } from "./app.component";
-import { routes, navigatableComponents } from "./app.routing";
+import {NgModule} from "@angular/core";
+import {NativeScriptFormsModule} from "nativescript-angular/forms";
+import {NativeScriptHttpModule} from "nativescript-angular/http";
+import {NativeScriptModule} from "nativescript-angular/platform";
+import {NativeScriptRouterModule} from "nativescript-angular/router";
+import {SlidesModule} from "nativescript-ng2-slides";
+import {AppComponent} from "./app.component";
+import {routes, navigatableComponents} from "./app.routing";
+import {SIDEDRAWER_DIRECTIVES} from "nativescript-telerik-ui/sidedrawer/angular";
+import {IfAndroidDirective, IfIosDirective} from "./shared/ifplatformdirectives";
+import {DeleteDialog} from "./shared/delete/DeleteDialog";
 
 import drawerModule = require("nativescript-telerik-ui/sidedrawer");
-import { SIDEDRAWER_DIRECTIVES } from "nativescript-telerik-ui/sidedrawer/angular";
-
-import { IfAndroidDirective, IfIosDirective } from "./shared/ifplatformdirectives";
 
 @NgModule({
   imports: [
@@ -26,11 +24,13 @@ import { IfAndroidDirective, IfIosDirective } from "./shared/ifplatformdirective
   ],
   declarations: [ 
     AppComponent,
+    DeleteDialog,
     SIDEDRAWER_DIRECTIVES,
     IfAndroidDirective,
     IfIosDirective,
     ...navigatableComponents
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [DeleteDialog]
 })
 export class AppModule {}

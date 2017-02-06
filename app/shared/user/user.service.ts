@@ -26,8 +26,6 @@ export class UserService {
         request.addParam('username', user.email);
         request.addParam('password', user.password);
 
-        console.log(request.toString);
-
         return this.json.send(request);
     };
 
@@ -37,14 +35,12 @@ export class UserService {
         let b64encodedAuth = `${user.email}:${user.password}`;
         b64encodedAuth = this.base64.encode(b64encodedAuth);
         request.addHeader("Authorization", `Basic ${b64encodedAuth}`);
-        console.log(request.toString());
         return this.json.send(request);
     };
 
     validate(user: User): Observable<any> {
         this.user = user;
         let request = new JakRequest(Config.validateLoginApiUrl + "/" + this.getUserToken(), "GET");
-        console.log(request.toString());
         return this.json.send(request);
     }
 
@@ -58,11 +54,6 @@ export class UserService {
 
     setUserToken(token: string) {
         this.user.token = token;
-    };
-
-    handleErrors(error: Response) {
-        console.log(JSON.stringify(error.json()));
-        return Observable.throw(error);
     };
 
     getUsername(): string {

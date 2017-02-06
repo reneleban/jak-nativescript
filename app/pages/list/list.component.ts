@@ -1,4 +1,7 @@
-import {Component, ViewChild, ChangeDetectorRef, OnInit, ChangeDetectionStrategy, AfterViewInit} from "@angular/core";
+import {
+    Component, ViewChild, ChangeDetectorRef, OnInit, ChangeDetectionStrategy, AfterViewInit,
+    ViewContainerRef
+} from "@angular/core";
 import {RadSideDrawerComponent, SideDrawerType} from "nativescript-telerik-ui/sidedrawer/angular";
 import {BoardService} from "../../shared/board/board.service";
 import {UserService} from "../../shared/user/user.service";
@@ -6,6 +9,8 @@ import {ListService} from "../../shared/list/list.service";
 import {RouterExtensions} from "nativescript-angular";
 import {NavigationExtras} from "@angular/router";
 import * as dialogs from "ui/dialogs";
+import {ModalDialogService, ModalDialogOptions} from "nativescript-angular/directives/dialogs";
+import {DeleteDialog} from "../../shared/delete/DeleteDialog";
 
 class DataItem {
     constructor(public id: string, public name: string) { }
@@ -51,7 +56,9 @@ export class ListComponent implements OnInit, AfterViewInit {
                  private userService: UserService,
                  private boardService: BoardService, 
                  private listService: ListService,
-                 private router: RouterExtensions
+                 private router: RouterExtensions,
+                 private modalService: ModalDialogService,
+                 private viewContainerRef: ViewContainerRef
                  ) {
         this.pages = [];
         this.tabSelectedIndex = 0;
@@ -63,8 +70,12 @@ export class ListComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {
         this.userToken = this.userService.getUserToken();
+        this.loadBoards(true);
+    }
 
+    loadBoards(openFirst: boolean = false) {
         if (this.userToken != null) {
+            this.pages = [];
             this.boardService.boards(this.userToken).subscribe(response => {
                 for (var i = 0; i < response.length; i++) {
                     var element = response[i];
@@ -72,7 +83,7 @@ export class ListComponent implements OnInit, AfterViewInit {
                     this.pages.push(item);
                 }
 
-                if (this.pages.length > 0) {
+                if (openFirst && this.pages.length > 0) {
                     var firstBoard = this.pages[0];
                     this.openBoard(firstBoard);
                 } else {
@@ -161,6 +172,19 @@ export class ListComponent implements OnInit, AfterViewInit {
     }
 
     public deleteBoard() {
-        console.log("deleting board " + this.boardId);
+        let options: ModalDialogOptions = {
+            viewContainerRef: this.viewContainerRef,
+            context: {
+                boardId: this.boardId,
+                userToken: this.userToken
+            },
+            fullscreen: true
+        };
+
+        this.modalService.showModal(DeleteDialog, options).then((dialogResult: string) => {
+            if (dialogResult === "ok") {
+                this.loadBoards();
+            }
+        });
     }
 }
