@@ -4,6 +4,7 @@ import "rxjs/add/operator/do";
 import "rxjs/add/operator/map";
 import {JakRequest} from "./jak.request";
 import {Observable} from "rxjs";
+import {URLSearchParams} from '@angular/http';
 
 @Injectable()
 export class Json {
@@ -27,7 +28,11 @@ export class Json {
 
 
         if (Object.keys(request.params).length > 0) {
-            basicOptions["content"] = JSON.stringify(request.params);
+            let body = new URLSearchParams();
+            Object.keys(request.params).forEach(key => {
+                body.set(key, request.params[key]);
+            });
+            basicOptions["body"] = body.toString(); // JSON.stringify(request.params);
         }
 
         let reqOptions = new RequestOptions(basicOptions);

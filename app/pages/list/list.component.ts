@@ -11,6 +11,7 @@ import { UserService } from "../../shared/user/user.service";
 import { ListService } from "../../shared/list/list.service";
 import {RouterExtensions} from "nativescript-angular";
 import {NavigationExtras} from "@angular/router";
+import * as dialogs from "ui/dialogs";
 
 class DataItem {
     constructor(public id: string, public name: string) { }
@@ -109,6 +110,27 @@ export class ListComponent implements OnInit, AfterViewInit {
                 this.drawer.closeDrawer();
             });
         }
+    }
+
+    public addBoard(){
+        let options  = {
+            title: "Neues Board",
+            defaultText: "Bezeichnung", 
+            inputType: dialogs.inputType.text,
+            okButtonText: "Erstellen",
+            cancelButtonText: "Abbrechen"
+        }
+
+        dialogs.prompt(options).then((result: dialogs.PromptResult) => {
+            if(result.text.trim().length > 0){
+                this.boardService.add(this.userToken, result.text).subscribe(response => {
+                    var item = new DataItem(response["board_id"], response["name"]);
+                    this.pages.push(item);
+                });
+
+            }
+        });
+
     }
 
     public onListItemTap(listItem: ListItem) {

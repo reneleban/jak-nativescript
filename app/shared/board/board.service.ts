@@ -19,4 +19,11 @@ export class BoardService {
         console.log(request.toString());
         return this.json.send(request);
     }
+    
+    add(token: string, name: string): Observable<any> {
+        let request = new JakRequest(Config.boardApiUrl + "/" + token, "POST" );
+        request.addParam('name', name);
+        return this.json.send(request);
+    }
+
 }

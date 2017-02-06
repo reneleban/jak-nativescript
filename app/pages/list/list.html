@@ -9,7 +9,13 @@
            <!-- <Label  horizontalAlignment="right" style="font-family: material;" text="&#xE879;"></Label> -->
         </StackLayout>
         <StackLayout class="sideStackLayout menuEntries">
+         
+            <StackLayout>
+                <Label text='Neues Board' (tap)="addBoard()" cssClass="board-label"></Label>
+            </StackLayout>
+        
             <ListView [items]="pages" separatorColor="white" cssClass="board-listview">
+               
                 <template let-item="item" let-i="index">
                     <StackLayout>
                         <Label [text]='item.name' (tap)="openBoard(item)" cssClass="board-label"></Label>
