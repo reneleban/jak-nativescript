@@ -159,4 +159,8 @@ export class ListComponent implements OnInit, AfterViewInit {
             }
         });
     }
+
+    public deleteBoard() {
+        console.log("deleting board " + this.boardId);
+    }
 }

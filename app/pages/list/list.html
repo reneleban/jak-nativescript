@@ -1,6 +1,10 @@
 <ActionBar title="{{ boardName }}">
     <ActionItem *ifIos icon="res://ic_drawer" (tap)="toggleDrawer()"></ActionItem>
     <NavigationButton *ifAndroid icon="res://ic_drawer" (tap)="toggleDrawer()"></NavigationButton>
+
+    <ActionItem (tap)="deleteBoard()"
+                ios.systemIcon="16" ios.position="right"
+                text="Delete" android.position="popup"></ActionItem>
 </ActionBar>
 <RadSideDrawer>
     <StackLayout tkDrawerContent class="sideStackLayout sideDrawer">

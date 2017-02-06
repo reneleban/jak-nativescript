@@ -129,4 +129,8 @@ export class CardComponent implements OnInit, AfterViewInit {
     public onListItemTap(cardItem: CardItem) {
         // console.dir(listItem);
     }
+
+    public deleteList() {
+        console.log("delete list " + this.listId);
+    }
 }

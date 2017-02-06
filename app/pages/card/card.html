@@ -1,4 +1,8 @@
-<ActionBar title="{{ listName }}"></ActionBar>
+<ActionBar title="{{ listName }}">
+    <ActionItem (tap)="deleteList()"
+                ios.systemIcon="16" ios.position="right"
+                text="Delete" android.position="popup"></ActionItem>
+</ActionBar>
 
 <GridLayout rows="auto, *">
     <ScrollView row="1">
