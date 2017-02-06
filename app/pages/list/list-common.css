@@ -48,3 +48,10 @@ ListView {
 .board-listview {
   background-color: #ffffff;
 }
+
+.fab {
+  width: 40px;
+  height: 40px;
+  background-color: orange;
+  border-radius: 20px;
+}

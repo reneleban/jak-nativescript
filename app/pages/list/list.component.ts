@@ -1,14 +1,8 @@
-import {
-    Component, ElementRef, ViewChild, ChangeDetectorRef, OnInit, Input, ChangeDetectionStrategy,
-    AfterViewInit
-} from "@angular/core";
-import { RadSideDrawerComponent, SideDrawerType } from "nativescript-telerik-ui/sidedrawer/angular";  
-import {HttpResponse} from "http";
-import { Observable as RxObservable } from "rxjs/Observable";
-
-import { BoardService } from "../../shared/board/board.service";
-import { UserService } from "../../shared/user/user.service";
-import { ListService } from "../../shared/list/list.service";
+import {Component, ViewChild, ChangeDetectorRef, OnInit, ChangeDetectionStrategy, AfterViewInit} from "@angular/core";
+import {RadSideDrawerComponent, SideDrawerType} from "nativescript-telerik-ui/sidedrawer/angular";
+import {BoardService} from "../../shared/board/board.service";
+import {UserService} from "../../shared/user/user.service";
+import {ListService} from "../../shared/list/list.service";
 import {RouterExtensions} from "nativescript-angular";
 import {NavigationExtras} from "@angular/router";
 import * as dialogs from "ui/dialogs";
@@ -43,6 +37,7 @@ export class ListComponent implements OnInit, AfterViewInit {
     private userToken: string;
 
     private boardName: string;
+    private boardId: string;
 
     public userLogoutIcon: string;
 
@@ -98,6 +93,7 @@ export class ListComponent implements OnInit, AfterViewInit {
 
     public openBoard(item: DataItem){
         this.boardName = item.name;
+        this.boardId = item.id;
 
         if (this.userToken != null) {
             this.items = [];
@@ -142,5 +138,25 @@ export class ListComponent implements OnInit, AfterViewInit {
         };
 
         this.router.navigate(["/card"], navigationExtras);
+    }
+
+    public addList() {
+        let options  = {
+            title: "Neue Liste",
+            defaultText: "Bezeichnung",
+            inputType: dialogs.inputType.text,
+            okButtonText: "Erstellen",
+            cancelButtonText: "Abbrechen"
+        }
+
+        dialogs.prompt(options).then((result: dialogs.PromptResult) => {
+            if(result.text.trim().length > 0){
+                this.listService.add(this.userToken, this.boardId, result.text).subscribe(response => {
+                    var item = new ListItem(response["owner"], response["board_id"], response["list_id"], response["name"]);
+                    this.items.push(item);
+                });
+
+            }
+        });
     }
 }

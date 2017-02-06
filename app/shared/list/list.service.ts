@@ -19,4 +19,10 @@ export class ListService {
         console.log(request.toString());
         return this.json.send(request);
     }
+
+    add(token: string, boardId: string, name: string): Observable<any> {
+        let request = new JakRequest(Config.listApiUrl + "/board/" + token + "/" + boardId, "POST" );
+        request.addParam('name', name);
+        return this.json.send(request);
+    }
 }

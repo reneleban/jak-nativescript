@@ -67,6 +67,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
         console.log("Appsettings-Token", appSettings.getString("userToken"));
         this.router.navigate(["/list"], { clearHistory: true });
       }
+    }, error => {
+      console.log("Login failed");
     });
   }
 

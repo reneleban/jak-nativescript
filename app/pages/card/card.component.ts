@@ -1,8 +1,10 @@
-import {Component, OnInit, ChangeDetectionStrategy, AfterViewInit, ChangeDetectorRef} from "@angular/core";
+import {Component, OnInit, ChangeDetectionStrategy, AfterViewInit, ChangeDetectorRef, ViewChild} from "@angular/core";
 import {UserService} from "../../shared/user/user.service";
 import {CardService} from "../../shared/card/card.service";
 import {ActivatedRoute} from "@angular/router";
 import * as elementRegistryModule from "nativescript-angular/element-registry";
+import {Button} from "ui/button";
+import * as dialogs from "ui/dialogs";
 elementRegistryModule.registerElement("CardView", () => require("nativescript-cardview").CardView);
 
 class CardItem {
@@ -30,6 +32,9 @@ export class CardComponent implements OnInit, AfterViewInit {
     private listId: string;
     private listName: string;
 
+    @ViewChild("fab")
+    private fab:Button;
+
     constructor (private _changeDetectionRef: ChangeDetectorRef,
                  private userService: UserService,
                  private cardService: CardService,
@@ -56,12 +61,30 @@ export class CardComponent implements OnInit, AfterViewInit {
             this.cardService.cards(this.userToken, this.listId).subscribe(response => {
                 for (var i = 0; i < response.length; i++) {
                     var data = response[i];
-                    console.dir(data);
                     var item = new CardItem(data["owner"], data["list_id"], data["card_id"], data["name"], data["description"]);
                     this.items.push(item);
                 }
             });
         }
+    }
+
+    public addCard() {
+        let options  = {
+            title: "Neue Karte",
+            defaultText: "Bezeichnung",
+            inputType: dialogs.inputType.text,
+            okButtonText: "Erstellen",
+            cancelButtonText: "Abbrechen"
+        }
+
+        dialogs.prompt(options).then((result: dialogs.PromptResult) => {
+            if(result.text.trim().length > 0){
+                this.cardService.add(this.userToken, result.text, this.listId).subscribe(response => {
+                    var item = new CardItem(response["owner"], response["list_id"], response["card_id"], response["name"], response["description"]);
+                    this.items.push(item);
+                });
+            }
+        });
     }
 
     public onListItemTap(cardItem: CardItem) {

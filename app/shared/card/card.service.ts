@@ -17,4 +17,11 @@ export class CardService {
         console.log(request.toString());
         return this.json.send(request);
     }
+
+    add(token: string, name: string, listId: string): Observable<any> {
+        let request = new JakRequest(Config.cardApiUrl + "/" + token + "/" + listId, "POST");
+        request.addParam("name", name);
+        request.addParam("description", "");
+        return this.json.send(request);
+    }
 }
