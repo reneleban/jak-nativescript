@@ -1,50 +1,19 @@
-.add-bar {
-  background-color: #CB1D00;
-  padding: 5 10;
-}
-
-.add-bar Image {
-  height: 15;
-  vertical-align: center;
-  margin-left: 10;
-  margin-right: 5;
-}
-
 TextField {
   color: #ffffff;
 }
 
-.sideDrawer{
-  background-color: #009688;
+.cardStyle {
+  color: #000;
+  background-color: white;
+
+  margin: 10px;
 }
 
-.sideTitleStackLayout {
-  margin: 0;
-  margin-top: 15%;
-  padding: 16px;
+.clear-btn {
+  background-color: white;
+  padding:5px;
 }
 
-.sideTitleStackLayout label{
-  font-weight: bold;
-  line-height: 28dp;
-  color: white;
-}
-
-.menuEntries {
-  background-color: #ffffff;
-}
-
-.menuEntries label{
-  font-weight: normal;
-  line-height: 24dp;
-  font-size: 16sp;
-  color: #000000;
-} 
-
-ListView {
-  height: 100%;
-}
-
-.board-listview {
-  background-color: #ffffff;
+.cardStyle Label {
+  padding: 10px;
 }

@@ -31,7 +31,8 @@ class ListItem {
   selector: "list",
   templateUrl: "pages/list/list.html",
   styleUrls: ["pages/list/list-common.css", "pages/list/list.css"],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.Default
+
 })
 
 export class ListComponent implements OnInit, AfterViewInit {
@@ -44,8 +45,6 @@ export class ListComponent implements OnInit, AfterViewInit {
 
     public pages:Array<DataItem>;
 
-    public listItems: RxObservable<Array<ListItem>>;
-    public subscr: any;
     public items: Array<ListItem>;
 
     public tabSelectedIndex: number;
@@ -62,14 +61,6 @@ export class ListComponent implements OnInit, AfterViewInit {
         this.userLogoutIcon = charCode.toString(16);
 
         this.items = [];
-
-        this.listItems = RxObservable.create(subscriber => {
-            this.subscr = subscriber;
-            subscriber.next(this.items);
-            return function () {
-                console.log("Unsubscribe called!");
-            };
-        });
     }
 
     ngOnInit() {
@@ -99,13 +90,11 @@ export class ListComponent implements OnInit, AfterViewInit {
         console.dir(item);
         if (this.userToken != null) {
             this.items = [];
-            // this.subscr.next(this.items);
             this.listService.lists(this.userToken, item.id).subscribe(response => {
                 for (var i = 0; i < response.length; i++) {
                     var data = response[i];
                     var item = new ListItem(data["owner"], data["board_id"], data["list_id"], data["name"]);
                     this.items.push(item);
-                    this.subscr.next(this.items);
                 }
                 this.drawer.closeDrawer();
             });

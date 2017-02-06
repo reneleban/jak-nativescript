@@ -1,12 +1,9 @@
 import {Component, OnInit, ChangeDetectionStrategy, AfterViewInit, ChangeDetectorRef} from "@angular/core";
-import {HttpResponse} from "http";
-import {Observable as RxObservable} from "rxjs/Observable";
 import {UserService} from "../../shared/user/user.service";
 import {CardService} from "../../shared/card/card.service";
 import {ActivatedRoute} from "@angular/router";
-
-// import * as elementRegistryModule from "nativescript-angular/element-registry";
-// elementRegistryModule.registerElement("CardView", () => require("nativescript-cardview").CardView);
+import * as elementRegistryModule from "nativescript-angular/element-registry";
+elementRegistryModule.registerElement("CardView", () => require("nativescript-cardview").CardView);
 
 class CardItem {
     constructor(
@@ -23,13 +20,11 @@ class CardItem {
   selector: "card",
   templateUrl: "pages/card/card.html",
   styleUrls: ["pages/card/card-common.css", "pages/card/card.css"],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.Default
 })
 
 export class CardComponent implements OnInit, AfterViewInit {
     private userToken: string;
-    public cardItems: RxObservable<Array<CardItem>>;
-    public subscr: any;
     public items: Array<CardItem>;
 
     private listId: string;
@@ -44,15 +39,6 @@ export class CardComponent implements OnInit, AfterViewInit {
         this.route.queryParams.subscribe(params => {
             this.listId = params["selectedListId"];
         });
-
-        this.cardItems = RxObservable.create(subscriber => {
-            console.log(subscriber);
-            this.subscr = subscriber;
-            subscriber.next(this.items);
-            return function () {
-                console.log("Unsubscribe called!");
-            };
-        });
     }
 
 
@@ -65,23 +51,16 @@ export class CardComponent implements OnInit, AfterViewInit {
 
         if (this.userToken != null) {
             this.items = [];
-            this.subscr.next(this.items);
-            // this.cardService.cards(this.userToken, this.listId, this.cardCallback);
+            this.cardService.cards(this.userToken, this.listId).subscribe(response => {
+                for (var i = 0; i < response.length; i++) {
+                    var data = response[i];
+                    console.dir(data);
+                    var item = new CardItem(data["owner"], data["list_id"], data["card_id"], data["name"], data["description"]);
+                    this.items.push(item);
+                }
+            });
         }
     }
-
-    cardCallback = (response: HttpResponse) => {
-        let content = response.content.toJSON();
-        for (var i = 0; i < content.length; i++) {
-            var data = content[i];
-            console.dir(data);
-            var item = new CardItem(data["owner"], data["list_id"], data["card_id"], data["name"], data["description"]);
-            this.items.push(item);
-            this.subscr.next(this.items);
-        }
-
-        console.dir(this.cardItems);
-    };
 
     public onListItemTap(cardItem: CardItem) {
         // console.dir(listItem);
