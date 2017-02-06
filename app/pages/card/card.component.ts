@@ -28,6 +28,7 @@ export class CardComponent implements OnInit, AfterViewInit {
     public items: Array<CardItem>;
 
     private listId: string;
+    private listName: string;
 
     constructor (private _changeDetectionRef: ChangeDetectorRef,
                  private userService: UserService,
@@ -38,6 +39,7 @@ export class CardComponent implements OnInit, AfterViewInit {
 
         this.route.queryParams.subscribe(params => {
             this.listId = params["selectedListId"];
+            this.listName = params["selectedListName"];
         });
     }
 

@@ -41,6 +41,8 @@ export class ListComponent implements OnInit, AfterViewInit {
     private drawer: SideDrawerType;
     private userToken: string;
 
+    private boardName: string;
+
     public userLogoutIcon: string;
 
     public pages:Array<DataItem>;
@@ -73,6 +75,13 @@ export class ListComponent implements OnInit, AfterViewInit {
                     var item = new DataItem(element["board_id"], element["name"]);
                     this.pages.push(item);
                 }
+
+                if (this.pages.length > 0) {
+                    var firstBoard = this.pages[0];
+                    this.openBoard(firstBoard);
+                } else {
+                    this.boardName = "No boards available";
+                }
             });
         }
     }
@@ -87,7 +96,8 @@ export class ListComponent implements OnInit, AfterViewInit {
     }
 
     public openBoard(item: DataItem){
-        console.dir(item);
+        this.boardName = item.name;
+
         if (this.userToken != null) {
             this.items = [];
             this.listService.lists(this.userToken, item.id).subscribe(response => {
@@ -104,7 +114,8 @@ export class ListComponent implements OnInit, AfterViewInit {
     public onListItemTap(listItem: ListItem) {
         let navigationExtras: NavigationExtras = {
             queryParams: {
-                "selectedListId": listItem.id
+                "selectedListId": listItem.id,
+                "selectedListName": listItem.name
             }
         };
 

@@ -1,4 +1,4 @@
-<ActionBar title="Lists">
+<ActionBar title="{{ boardName }}">
     <ActionItem *ifIos icon="res://ic_drawer" (tap)="toggleDrawer()"></ActionItem>
     <NavigationButton *ifAndroid icon="res://ic_drawer" (tap)="toggleDrawer()"></NavigationButton>
 </ActionBar>
@@ -21,8 +21,8 @@
     <GridLayout tkMainContent>
          <ListView [items]="items" class="list-group">
             <template let-item="item" let-i="index" let-odd="odd" let-even="even">
-                <GridLayout class="list-group-item" [class.odd]="odd" [class.even]="even">
-                    <Label [text]="item.name" android:class="label-item" (tap)="onListItemTap(item)"></Label>
+                <GridLayout class="list-group-item" [class.odd]="odd" [class.even]="even" (tap)="onListItemTap(item)">
+                    <Label [text]="item.name" android:class="label-item"></Label>
                 </GridLayout>
             </template>
         </ListView>
