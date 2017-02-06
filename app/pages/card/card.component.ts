@@ -23,7 +23,8 @@ class CardItem {
         public list_id: string,
         public id: string,
         public name: string,
-        public description: string
+        public description: string,
+        public additional: {}
     ) {
     }
 }
@@ -123,9 +124,9 @@ export class CardComponent implements OnInit, AfterViewInit {
                 keepAspectRatio: true, 
                 saveToGallery: false
             }).then((imageAsset) => {
-                console.dir(imageAsset);
                 this.imageSource.fromAsset(imageAsset).then((imgsrc) => {
                     // todo save image in service, set image to card 
+                    // -> save image with service, return web-accessible url, add info to carditem in additionalinfo hashset
                     let base64Img = imgsrc.toBase64String();
                 });
                 
