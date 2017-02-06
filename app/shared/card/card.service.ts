@@ -24,4 +24,9 @@ export class CardService {
         request.addParam("description", "");
         return this.json.send(request);
     }
+
+    delete(token: string, cardId: string): Observable<any> {
+        let request = new JakRequest(Config.cardApiUrl + "/" + token + "/" + cardId, "DELETE");
+        return this.json.send(request);
+    }
 }

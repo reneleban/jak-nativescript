@@ -5,6 +5,7 @@ import {ActivatedRoute} from "@angular/router";
 import * as elementRegistryModule from "nativescript-angular/element-registry";
 import {Button} from "ui/button";
 import * as dialogs from "ui/dialogs";
+import {SwipeGestureEventData} from "ui/gestures";
 elementRegistryModule.registerElement("CardView", () => require("nativescript-cardview").CardView);
 
 class CardItem {
@@ -84,6 +85,19 @@ export class CardComponent implements OnInit, AfterViewInit {
                     this.items.push(item);
                 });
             }
+        });
+    }
+
+    swipe(cardItem: CardItem, args: SwipeGestureEventData) {
+        if (args.direction > 2) return;
+        var value = 400;
+        if(args.direction==2) value *= -1;
+        args.view.animate({translate : {x:value, y: 0}, duration: 300}).then(value => {
+            this.items.splice(this.items.indexOf(cardItem), 1);
+        }).then(value => {
+            this.cardService.delete(this.userToken, cardItem.id).subscribe(response => {
+                console.log("deleted card");
+            });
         });
     }
 
