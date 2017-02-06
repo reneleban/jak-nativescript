@@ -4,7 +4,7 @@ import "rxjs/add/operator/map";
 import {Config} from "../config";
 import {JakRequest} from "../json/jak.request";
 import {Json} from "../json/json";
-import {HttpResponse} from "http";
+import {Observable} from "rxjs";
 
 @Injectable()
 export class CardService {
@@ -12,9 +12,9 @@ export class CardService {
     constructor(private json: Json) {
     }
 
-    cards(token: string, listId: string, func: (response: HttpResponse) => void) {
+    cards(token: string, listId: string): Observable<any> {
         let request = new JakRequest(Config.cardApiUrl + "/" + token + "/" + listId, "GET");
         console.log(request.toString());
-        this.json.send(request, func);
+        return this.json.send(request);
     }
 }

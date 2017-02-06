@@ -1,14 +1,13 @@
-import { Component, ElementRef, OnInit, ViewChild, AfterViewInit } from "@angular/core";
-import { User } from "../../shared/user/user";
-import { UserService } from "../../shared/user/user.service";
+import {Component, ElementRef, OnInit, ViewChild, AfterViewInit} from "@angular/core";
+import {User} from "../../shared/user/user";
+import {UserService} from "../../shared/user/user.service";
 //import { Router, NavigationExtras } from "@angular/router";
 import {RouterExtensions} from "nativescript-angular/router";
-import { Page } from "ui/page";
-import { Color } from "color";
-import { View } from "ui/core/view";
-import {HttpResponse} from "http";
-import application = require("application");
+import {Page} from "ui/page";
+import {Color} from "color";
+import {View} from "ui/core/view";
 import * as appSettings from "application-settings";
+import application = require("application");
 
 @Component({
   selector: "my-app",
@@ -38,21 +37,14 @@ export class LoginComponent implements OnInit, AfterViewInit {
       console.log("using previous token: " + prevToken);
       this.user.token = prevToken;
       this.userService.user = this.user;
-      this.userService.validate(this.user, this.validateCallBack);
-    }
-  }
-
-  validateCallBack = (response: HttpResponse) => {
-    if(response.statusCode == 200){
-      let username = response.content.toJSON()["username"];
-      this.user.email = username;
-      if (this.userService.isUserLoggedIn()) {
+      this.userService.validate(this.user).subscribe(response => {
+        let username = response["username"];
+        this.user.email = username;
+        if (this.userService.isUserLoggedIn()) {
           this.userService.user = this.user;
           this.router.navigate(["/list"], { clearHistory: true });
-      }
-    } else {
-      this.user = new User();
-      appSettings.remove("userToken");
+        }
+      });
     }
   }
 
@@ -65,23 +57,26 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
 
   login() {
-    this.userService.login(this.user, this.loginCallback);
+    this.userService.login(this.user).subscribe(response => {
+      let token = response["token"];
+      this.userService.setUserToken(token);
+
+      if (this.userService.isUserLoggedIn()) {
+        console.log("user token: " + this.userService.getUserToken());
+        appSettings.setString("userToken", this.userService.getUserToken());
+        console.log("Appsettings-Token", appSettings.getString("userToken"));
+        this.router.navigate(["/list"], { clearHistory: true });
+      }
+    });
   }
 
-  loginCallback = (response: HttpResponse) => {
-    let token = response.content.toJSON()["token"];
-    this.userService.setUserToken(token);
-
-    if (this.userService.isUserLoggedIn()) {
+  signUp() {
+    this.userService.register(this.user).subscribe(response => {
       console.log("user token: " + this.userService.getUserToken());
       appSettings.setString("userToken", this.userService.getUserToken());
       console.log("Appsettings-Token", appSettings.getString("userToken"));
       this.router.navigate(["/list"], { clearHistory: true });
-    }
-  };
-
-  signUp() {
-    this.userService.register(this.user, this.loginCallback);
+    });
   }
 
   toggleDisplay() {

@@ -19,7 +19,7 @@ export class UserService {
 
     base64 = require("base-64");
 
-    register(user: User, func: (response: HttpResponse) => void) {
+    register(user: User): Observable<any> {
         this.user = user;
 
         let request = new JakRequest(Config.loginApiUrl, "POST");
@@ -28,24 +28,24 @@ export class UserService {
 
         console.log(request.toString);
 
-        this.json.send(request, func);  
+        return this.json.send(request);
     };
 
-    login(user: User, func: (response: HttpResponse) => void) {
+    login(user: User): Observable<any> {
         this.user = user;
         let request = new JakRequest(Config.loginApiUrl, "GET");
         let b64encodedAuth = `${user.email}:${user.password}`;
         b64encodedAuth = this.base64.encode(b64encodedAuth);
         request.addHeader("Authorization", `Basic ${b64encodedAuth}`);
         console.log(request.toString());
-        this.json.send(request, func);
+        return this.json.send(request);
     };
 
-    validate(user: User, func: (response:HttpResponse) => void){
+    validate(user: User): Observable<any> {
         this.user = user;
         let request = new JakRequest(Config.validateLoginApiUrl + "/" + this.getUserToken(), "GET");
         console.log(request.toString());
-        this.json.send(request, func);
+        return this.json.send(request);
     }
 
     isUserLoggedIn(): Boolean {

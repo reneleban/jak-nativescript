@@ -14,9 +14,9 @@ export class ListService {
     constructor(private json: Json) {
     }
 
-    lists(token: string, boardId: string, func: (response: HttpResponse) => void) {
+    lists(token: string, boardId: string): Observable<any> {
         let request = new JakRequest(Config.listApiUrl + "/list/" + token + "/" + boardId, "GET");
         console.log(request.toString());
-        this.json.send(request, func);
+        return this.json.send(request);
     }
 }

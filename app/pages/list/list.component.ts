@@ -1,4 +1,7 @@
-import { Component, ElementRef, ViewChild, ChangeDetectorRef, OnInit, Input, ChangeDetectionStrategy} from "@angular/core";
+import {
+    Component, ElementRef, ViewChild, ChangeDetectorRef, OnInit, Input, ChangeDetectionStrategy,
+    AfterViewInit
+} from "@angular/core";
 import { RadSideDrawerComponent, SideDrawerType } from "nativescript-telerik-ui/sidedrawer/angular";  
 import {HttpResponse} from "http";
 import { Observable as RxObservable } from "rxjs/Observable";
@@ -31,7 +34,7 @@ class ListItem {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class ListComponent implements OnInit {
+export class ListComponent implements OnInit, AfterViewInit {
     @ViewChild(RadSideDrawerComponent) 
     public drawerComponent: RadSideDrawerComponent;
     private drawer: SideDrawerType;
@@ -59,7 +62,7 @@ export class ListComponent implements OnInit {
         this.userLogoutIcon = charCode.toString(16);
 
         this.items = [];
-        
+
         this.listItems = RxObservable.create(subscriber => {
             this.subscr = subscriber;
             subscriber.next(this.items);
@@ -73,16 +76,13 @@ export class ListComponent implements OnInit {
         this.userToken = this.userService.getUserToken();
 
         if (this.userToken != null) {
-            this.boardService.boards(this.userToken, this.boardCallback);
-        }
-    }
-
-    boardCallback = (response: HttpResponse) => {
-        let content = response.content.toJSON();
-        for (var i = 0; i < content.length; i++) {
-            var data = content[i];
-            var item = new DataItem(data["board_id"], data["name"]);
-            this.pages.push(item);
+            this.boardService.boards(this.userToken).subscribe(response => {
+                for (var i = 0; i < response.length; i++) {
+                    var element = response[i];
+                    var item = new DataItem(element["board_id"], element["name"]);
+                    this.pages.push(item);
+                }
+            });
         }
     }
 
@@ -99,20 +99,17 @@ export class ListComponent implements OnInit {
         console.dir(item);
         if (this.userToken != null) {
             this.items = [];
-            this.subscr.next(this.items);
-            this.listService.lists(this.userToken, item.id, this.listCallback);
+            // this.subscr.next(this.items);
+            this.listService.lists(this.userToken, item.id).subscribe(response => {
+                for (var i = 0; i < response.length; i++) {
+                    var data = response[i];
+                    var item = new ListItem(data["owner"], data["board_id"], data["list_id"], data["name"]);
+                    this.items.push(item);
+                    this.subscr.next(this.items);
+                }
+                this.drawer.closeDrawer();
+            });
         }
-    }
-
-    listCallback = (response: HttpResponse) => {
-        let content = response.content.toJSON();
-        for (var i = 0; i < content.length; i++) {
-            var data = content[i];
-            var item = new ListItem(data["owner"], data["board_id"], data["list_id"], data["name"]);
-            this.items.push(item);
-            this.subscr.next(this.items);
-        }
-        this.drawer.closeDrawer();
     }
 
     public onListItemTap(listItem: ListItem) {

@@ -1,15 +1,16 @@
 import {Injectable} from "@angular/core";
-import {Headers} from "@angular/http";
+import {Headers, Http, RequestOptionsArgs, RequestOptions, Request, Response} from "@angular/http";
 import "rxjs/add/operator/do";
 import "rxjs/add/operator/map";
 import {JakRequest} from "./jak.request";
-import * as http from "http";
-import {HttpResponse} from "http";
+import {Observable} from "rxjs";
 
 @Injectable()
 export class Json {
 
-    public send(request: JakRequest, callback: (response: HttpResponse) => any) {
+    constructor(private http: Http) {}
+
+    public send(request: JakRequest): Observable<any> {
         let headers = new Headers();
         headers.append("Content-Type", `${request.contentType}`);
 
@@ -18,26 +19,22 @@ export class Json {
             headers.append(k, request.additionalHeaders[k]);
         });
 
-        let url = request.url;
-
-        let req = {
+        let basicOptions: RequestOptionsArgs = {
           url: request.url,
           method: request.method,
-          headers: request.additionalHeaders
+          headers: new Headers(request.additionalHeaders)
         };
 
+
         if (Object.keys(request.params).length > 0) {
-            let parameterString = JSON.stringify(request.params);
-            req["content"] = parameterString;
+            basicOptions["content"] = JSON.stringify(request.params);
         }
 
-        http.request(req).then(function successCallback(response) {
-            console.log("Success -> " + response);
-            callback(response);
-        }, function errorCallback(response) {
-            console.log("An error occured:");
-            console.log(response);
-            callback(response);
-        });
+        let reqOptions = new RequestOptions(basicOptions);
+        let req = new Request(reqOptions);
+
+        return this.http.request(req)
+            .map((res:Response) => res.json())
+            .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
     }
 }

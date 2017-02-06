@@ -44,27 +44,29 @@ export class CardComponent implements OnInit, AfterViewInit {
         this.route.queryParams.subscribe(params => {
             this.listId = params["selectedListId"];
         });
-    }
 
-    ngOnInit() {
-        this.userToken = this.userService.getUserToken();
-    }
-
-    ngAfterViewInit() {
         this.cardItems = RxObservable.create(subscriber => {
+            console.log(subscriber);
             this.subscr = subscriber;
             subscriber.next(this.items);
             return function () {
                 console.log("Unsubscribe called!");
             };
         });
+    }
 
+
+    ngOnInit() {
+        this.userToken = this.userService.getUserToken();
+    }
+
+    ngAfterViewInit() {
         this._changeDetectionRef.detectChanges();
 
         if (this.userToken != null) {
             this.items = [];
             this.subscr.next(this.items);
-            this.cardService.cards(this.userToken, this.listId, this.cardCallback);
+            // this.cardService.cards(this.userToken, this.listId, this.cardCallback);
         }
     }
 
@@ -77,6 +79,8 @@ export class CardComponent implements OnInit, AfterViewInit {
             this.items.push(item);
             this.subscr.next(this.items);
         }
+
+        console.dir(this.cardItems);
     };
 
     public onListItemTap(cardItem: CardItem) {
