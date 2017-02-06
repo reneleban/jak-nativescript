@@ -8,6 +8,7 @@ import {Color} from "color";
 import {View} from "ui/core/view";
 import * as appSettings from "application-settings";
 import application = require("application");
+import * as dialogs from "ui/dialogs";
 
 @Component({
   selector: "my-app",
@@ -68,7 +69,11 @@ export class LoginComponent implements OnInit, AfterViewInit {
         this.router.navigate(["/list"], { clearHistory: true });
       }
     }, error => {
-      console.log("Login failed");
+      dialogs.alert({
+        title: "Achtung",
+        message: "Anmeldung war nicht erfolgreich",
+        okButtonText: "Ok"
+      });
     });
   }
 
