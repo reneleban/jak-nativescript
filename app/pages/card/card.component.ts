@@ -4,6 +4,10 @@ import {CardService} from "../../shared/card/card.service";
 import {ActivatedRoute} from "@angular/router";
 import * as elementRegistryModule from "nativescript-angular/element-registry";
 import {Button} from "ui/button";
+import * as camera from "nativescript-camera";
+import { Image } from "ui/image";
+import { GestureEventData } from "ui/gestures";
+
 import * as dialogs from "ui/dialogs";
 import {SwipeGestureEventData} from "ui/gestures";
 elementRegistryModule.registerElement("CardView", () => require("nativescript-cardview").CardView);
@@ -32,6 +36,7 @@ export class CardComponent implements OnInit, AfterViewInit {
 
     private listId: string;
     private listName: string;
+    private imageSource = require("image-source");
 
     @ViewChild("fab")
     private fab:Button;
@@ -42,6 +47,8 @@ export class CardComponent implements OnInit, AfterViewInit {
                  private route: ActivatedRoute) {
 
         this.items = [];
+
+        camera.requestPermissions();
 
         this.route.queryParams.subscribe(params => {
             this.listId = params["selectedListId"];
@@ -99,6 +106,24 @@ export class CardComponent implements OnInit, AfterViewInit {
                 console.log("deleted card");
             });
         });
+    }
+
+    public imageFromCamera(args: GestureEventData){
+        if(camera.isAvailable()){
+            camera.takePicture({
+                width: 1280,
+                height: 720, 
+                keepAspectRatio: true, 
+                saveToGallery: false
+            }).then((imageAsset) => {
+                console.dir(imageAsset);
+                this.imageSource.fromAsset(imageAsset).then((imgsrc) => {
+                    // todo save image in service, set image to card 
+                    let base64Img = imgsrc.toBase64String();
+                });
+                
+            });
+        }
     }
 
     public onListItemTap(cardItem: CardItem) {
