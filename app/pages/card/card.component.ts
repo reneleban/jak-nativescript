@@ -77,7 +77,7 @@ export class CardComponent implements OnInit, AfterViewInit {
             this.cardService.cards(this.userToken, this.listId).subscribe(response => {
                 for (var i = 0; i < response.length; i++) {
                     var data = response[i];
-                    var item = new CardItem(data["owner"], data["list_id"], data["card_id"], data["name"], data["description"]);
+                    var item = new CardItem(data["owner"], data["list_id"], data["card_id"], data["name"], data["description"], {});
                     this.items.push(item);
                 }
             });
@@ -96,7 +96,7 @@ export class CardComponent implements OnInit, AfterViewInit {
         dialogs.prompt(options).then((result: dialogs.PromptResult) => {
             if(result.text.trim().length > 0){
                 this.cardService.add(this.userToken, result.text, this.listId).subscribe(response => {
-                    var item = new CardItem(response["owner"], response["list_id"], response["card_id"], response["name"], response["description"]);
+                    var item = new CardItem(response["owner"], response["list_id"], response["card_id"], response["name"], response["description"], {});
                     this.items.push(item);
                 });
             }
