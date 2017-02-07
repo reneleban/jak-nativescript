@@ -4,6 +4,7 @@ import { CardComponent } from "./pages/card/card.component";
 
 export const routes = [
   { path: "", component: LoginComponent },
+  { path: "login", component: LoginComponent },
   { path: "list", component: ListComponent },
   { path: "card", component: CardComponent }
 ];

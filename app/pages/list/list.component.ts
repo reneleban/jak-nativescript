@@ -11,6 +11,7 @@ import {NavigationExtras} from "@angular/router";
 import * as dialogs from "ui/dialogs";
 import {ModalDialogService, ModalDialogOptions} from "nativescript-angular/directives/dialogs";
 import {DeleteDialog} from "../../shared/delete/DeleteDialog";
+import * as appSettings from "application-settings";
 
 class DataItem {
     constructor(public id: string, public name: string) { }
@@ -186,5 +187,10 @@ export class ListComponent implements OnInit, AfterViewInit {
                 this.loadBoards();
             }
         });
+    }
+
+    public logout() {
+        appSettings.remove("userToken");
+        this.router.navigate(["login"], { clearHistory: true });
     }
 }

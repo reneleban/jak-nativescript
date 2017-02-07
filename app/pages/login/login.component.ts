@@ -11,7 +11,7 @@ import application = require("application");
 import * as dialogs from "ui/dialogs";
 
 @Component({
-  selector: "my-app",
+  selector: "login",
   templateUrl: "pages/login/login.html",
   styleUrls: ["pages/login/login-common.css", "pages/login/login.css"]
 })

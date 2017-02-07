@@ -9,7 +9,7 @@
 <RadSideDrawer>
     <StackLayout tkDrawerContent class="sideStackLayout sideDrawer">
         <StackLayout class="sideTitleStackLayout">
-            <Label horizontalAlignment="left" [text]="userService.getUsername()"></Label>
+            <Label horizontalAlignment="left" [text]="userService.getUsername()" (tap)="logout()"></Label>
            <!-- <Label  horizontalAlignment="right" style="font-family: material;" text="&#xE879;"></Label> -->
         </StackLayout>
         <StackLayout class="sideStackLayout menuEntries">
